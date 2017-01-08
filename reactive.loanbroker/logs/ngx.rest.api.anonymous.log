@@ -1,0 +1,13 @@
+2016-12-28 13:58:30.479 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 0 
+2016-12-28 14:05:28.038 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 0 
+2016-12-28 14:06:11.787 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 1 
+2016-12-28 14:07:51.869 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 2 
+2016-12-28 14:15:05.771 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 0 
+2016-12-28 14:17:04.724 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 1 
+2016-12-28 14:17:04.725 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 2 
+2016-12-28 14:18:04.089 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 0 
+2016-12-28 14:19:03.572 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 1 
+2016-12-28 14:19:36.075 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 2 
+2016-12-28 14:21:25.893 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 0 
+2016-12-28 14:23:55.837 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 1 
+2016-12-28 14:23:55.841 [main] [request_ip=] [user=] [user_role=] [request_id=] [traveller_identifier=] DEBUG - test message 2 
