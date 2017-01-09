@@ -33,11 +33,7 @@ public class LoanBrokerController {
     public Mono<BestQuotationResponse> reactorBestQuotation(final @RequestParam(value="loanAmount", required=true) Double loanAmount){
 
        return  Mono.from(reactorLoanBrokerAgent.findBestQuotation(loanAmount))
-                .filter(quotation ->
-                        {
-                           return quotation.getRequestedLoanAmount().equals(loanAmount);
-                        }
-                )
+                .filter(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount))
                 .otherwiseIfEmpty(Mono.error(new IllegalStateException("Returned amount does not match with best offer")));
     }
 
@@ -46,11 +42,7 @@ public class LoanBrokerController {
     public Mono<BestQuotationResponse> hybridBestQuotation(final @RequestParam(value="loanAmount", required=true) Double loanAmount){
 
         return Mono.from(hybridLoanBrokerAgent.findBestQuotation(loanAmount))
-                .filter(quotation ->
-                        {
-                            return quotation.getRequestedLoanAmount().equals(loanAmount);
-                        }
-                )
+                .filter(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount))
                 .otherwiseIfEmpty(Mono.error(new IllegalStateException("Returned amount does not match with best offer")));
     }
 
@@ -59,11 +51,7 @@ public class LoanBrokerController {
     public Single<BestQuotationResponse> rxBestQuotation(final @RequestParam(value="loanAmount", required=true) Double loanAmount){
 
         return  Flowable.fromPublisher(rxLoanBrokerAgent.findBestQuotation(loanAmount))
-                .filter(quotation ->
-                        {
-                            return quotation.getRequestedLoanAmount().equals(loanAmount);
-                        }
-                ).singleOrError();
+                .filter(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount)).singleOrError();
     }
 
 
