@@ -51,6 +51,19 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.javaslang</groupId>
+			<artifactId>javaslang</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>
 			<version>3.0.4.RELEASE</version>

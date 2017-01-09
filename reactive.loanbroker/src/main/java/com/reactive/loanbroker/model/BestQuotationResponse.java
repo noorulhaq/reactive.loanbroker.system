@@ -14,6 +14,7 @@ public class BestQuotationResponse {
     private List<Quotation> offers = new ArrayList<Quotation>(9);
     private Quotation bestOffer;
 
+    public BestQuotationResponse(){}
 
     public BestQuotationResponse(Double requestedLoanAmount){
         this.requestedLoanAmount = requestedLoanAmount;
