@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 
 @Service
 public class ReactorLoanBrokerAgent extends ReactiveLoanBrokerAgent {
-
 
     private SpringReactorLoanRequestService loanRequestService;
 
@@ -27,14 +28,13 @@ public class ReactorLoanBrokerAgent extends ReactiveLoanBrokerAgent {
 
     public Mono<BestQuotationResponse> findBestQuotation(Publisher<String> banksURL,Double loanAmount){
 
-        BestQuotationResponse bestQuotationResponse = new BestQuotationResponse(loanAmount);
-        bestQuotationResponse.bestOffer(LoanRequestService.OFFER_IN_CASE_OF_ERROR);
-
         return Flux.from(banksURL)
-                .flatMap(bankURL -> loanRequestService.requestForQuotation(bankURL, loanAmount)) // Scatter
+                .flatMap(bankURL -> loanRequestService.requestForQuotation(bankURL, loanAmount).otherwiseReturn(LoanRequestService.OFFER_IN_CASE_OF_ERROR)) // Scatter
+                .filter(offer -> !offer.equals(LoanRequestService.OFFER_IN_CASE_OF_ERROR)).log()
                 .collect(()->new BestQuotationResponse(loanAmount), BestQuotationResponse::offer) // Gather
                 .doOnSuccess(BestQuotationResponse::finish)
                 .flatMap(bqr -> Mono.justOrEmpty(selectBestQuotation(bqr.getOffers())).map(bestQuotation -> { bqr.bestOffer(bestQuotation); return bqr;}))
-                .onErrorReturn(bestQuotationResponse).singleOrEmpty();
+                .timeout(Duration.ofMillis(3000))
+                .singleOrEmpty();
     }
 }

@@ -11,15 +11,23 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class Errors {
 
     public static Mono<ServerResponse> unknownException(Throwable ex) {
-        return ServerResponse.status(INTERNAL_SERVER_ERROR).body(Mono.just(Error.unknownError(ex)), Error.class);
+        return ServerResponse.status(INTERNAL_SERVER_ERROR).body(Mono.just(ServiceError.unknownError(ex)), ServiceError.class);
     }
 
     public static Mono<ServerResponse> loanAmountRequired() {
-        return ServerResponse.badRequest().body(Mono.just(Error.loanAmountRequired()), Error.class);
+        return ServerResponse.badRequest().body(Mono.just(ServiceError.loanAmountRequired()), ServiceError.class);
     }
 
     public static Mono<ServerResponse> mapException(Exception ex) {
-        return ServerResponse.status(INTERNAL_SERVER_ERROR).body(Mono.just(Error.mapException(ex)), Error.class);
+        return ServerResponse.status(INTERNAL_SERVER_ERROR).body(Mono.just(ServiceError.mapException(ex)), ServiceError.class);
+    }
+
+    public static Mono<ServerResponse> serviceTookMoreTime() {
+        return ServerResponse.status(INTERNAL_SERVER_ERROR).body(Mono.just(ServiceError.serviceTookMoreTime()), ServiceError.class);
+    }
+
+    public static Mono<ServerResponse> noBankServiceAvailable() {
+        return ServerResponse.ok().body(Mono.just(ServiceError.noBankServiceAvailable()), ServiceError.class);
     }
 
 }

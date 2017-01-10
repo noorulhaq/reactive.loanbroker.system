@@ -52,4 +52,8 @@ public class BestQuotationResponse {
         return offers;
     }
 
+    @Override
+    public String toString() {
+        return requestedLoanAmount +" : "+ getBestOffer().toString();
+    }
 }

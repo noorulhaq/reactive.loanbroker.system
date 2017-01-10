@@ -6,6 +6,8 @@ import com.reactive.loanbroker.model.BestQuotationResponse;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+import java.util.concurrent.TimeoutException;
+
 /**
  * Created by husainbasrawala on 1/8/17.
  */
@@ -20,16 +22,18 @@ public class LoanBrokerHandler {
 
     public Mono<ServerResponse> bestQuotation(ServerRequest request) {
 
-        return Mono.justOrEmpty(request.queryParam("loanAmount"))
+        return request.queryParam("loanAmount").map((loanAmountParam) -> Mono.just(loanAmountParam)
                 .map(Double::valueOf)
-                .then((Double loanAmount) -> Mono.from(reactorLoanBrokerAgent.findBestQuotation(loanAmount))
-                        .filter(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount))
-                        .otherwiseIfEmpty(Mono.error(new IllegalStateException("Returned amount does not match with the best offer"))))
-                .flatMap(bestQuotationResponse -> ServerResponse.ok().body(Mono.just(bestQuotationResponse), BestQuotationResponse.class))
-                .switchIfEmpty(Errors.loanAmountRequired())
-                .onErrorResumeWith(IllegalStateException.class, Errors::mapException)
-                .onErrorResumeWith(Errors::unknownException)
-                .next();
+                .then((loanAmount) -> Mono.from( reactorLoanBrokerAgent.findBestQuotation(loanAmount))
+                        .then(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount) ?
+                                Mono.just(quotation) : Mono.error(new IllegalStateException("Returned amount does not match with the best offer"))).log()
+                )
+                .flatMap(bestQuotationResponse -> ServerResponse.ok().body(Mono.just(bestQuotationResponse), BestQuotationResponse.class)).log()
+                .switchIfEmpty(Errors.noBankServiceAvailable())
+                .onErrorResumeWith(IllegalStateException.class, Errors::mapException).log()
+                .onErrorResumeWith(TimeoutException.class, (e)->Errors.serviceTookMoreTime()).log()
+                .onErrorResumeWith(Errors::unknownException).log()
+                .next().log()).orElseGet(()->Errors.loanAmountRequired());
     }
 }
 
