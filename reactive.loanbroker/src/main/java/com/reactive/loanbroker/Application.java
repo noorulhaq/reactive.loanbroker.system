@@ -21,7 +21,6 @@ import org.springframework.web.reactive.config.DelegatingWebReactiveConfiguratio
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import reactor.ipc.netty.http.server.HttpServer;
-import java.util.concurrent.CountDownLatch;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
@@ -30,6 +29,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @EnableEurekaClient
 @EnableCircuitBreaker
 @Import(DelegatingWebReactiveConfiguration.class)
+@SuppressWarnings("unused")
 public class Application {
 
 	@Value("${server.port}")
@@ -44,9 +44,7 @@ public class Application {
 	private ApplicationContext context;
 
 	public static void main(String[] args) throws Exception {
-		CountDownLatch latch = new CountDownLatch(1);
 		new SpringApplicationBuilder(Application.class).web(false).run(args);
-		latch.await();
 	}
 
 	@Bean

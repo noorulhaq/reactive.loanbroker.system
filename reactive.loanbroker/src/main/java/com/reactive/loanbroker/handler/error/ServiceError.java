@@ -65,4 +65,11 @@ public class ServiceError {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "ServiceError{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

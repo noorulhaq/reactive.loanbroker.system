@@ -51,6 +51,13 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.reactive.bank</groupId>
+			<artifactId>reactive.bank</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.javaslang</groupId>
 			<artifactId>javaslang</artifactId>
 			<version>1.2.3</version>
@@ -147,6 +154,42 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-netflix-hystrix-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectreactor</groupId>
+			<artifactId>reactor-logback</artifactId>
+			<version>1.1.6.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.22</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>1.7.22</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.22</version>
 		</dependency>
 
 		<!--<dependency>-->

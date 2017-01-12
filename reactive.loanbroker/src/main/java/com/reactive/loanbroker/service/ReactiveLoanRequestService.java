@@ -8,7 +8,7 @@ import java.time.Duration;
 /**
  * Created by husainbasrawala on 12/26/16.
  */
-public interface LoanRequestService {
+public interface ReactiveLoanRequestService {
 
     Quotation OFFER_IN_CASE_OF_ERROR = new Quotation("Pseudo-Bank",Double.MAX_VALUE);
 

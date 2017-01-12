@@ -14,26 +14,31 @@ import java.util.concurrent.TimeoutException;
 public class LoanBrokerHandler {
 
 
-    private ReactiveLoanBrokerAgent reactorLoanBrokerAgent;
+private ReactiveLoanBrokerAgent loanBrokerAgent;
 
-    public LoanBrokerHandler(ReactiveLoanBrokerAgent reactorLoanBrokerAgent) {
-        this.reactorLoanBrokerAgent = reactorLoanBrokerAgent;
-    }
+public LoanBrokerHandler(ReactiveLoanBrokerAgent reactorLoanBrokerAgent) {
+    this.loanBrokerAgent = reactorLoanBrokerAgent;
+}
 
-    public Mono<ServerResponse> bestQuotation(ServerRequest request) {
+public Mono<ServerResponse> bestQuotation(ServerRequest request) {
 
-        return request.queryParam("loanAmount").map((loanAmountParam) -> Mono.just(loanAmountParam)
-                .map(Double::valueOf)
-                .then((loanAmount) -> Mono.from( reactorLoanBrokerAgent.findBestQuotation(loanAmount))
-                        .then(quotation -> quotation.getRequestedLoanAmount().equals(loanAmount) ?
-                                Mono.just(quotation) : Mono.error(new IllegalStateException("Returned amount does not match with the best offer"))).log()
-                )
-                .flatMap(bestQuotationResponse -> ServerResponse.ok().body(Mono.just(bestQuotationResponse), BestQuotationResponse.class)).log()
-                .switchIfEmpty(Errors.noBankServiceAvailable())
-                .onErrorResumeWith(IllegalStateException.class, Errors::mapException).log()
-                .onErrorResumeWith(TimeoutException.class, (e)->Errors.serviceTookMoreTime()).log()
-                .onErrorResumeWith(Errors::unknownException).log()
-                .next().log()).orElseGet(()->Errors.loanAmountRequired());
-    }
+    return request.queryParam("loanAmount").map((loanAmountParam) -> Mono.just(loanAmountParam)
+            .map(Double::valueOf)
+            .then((loanAmount) ->
+                    Mono.from( loanBrokerAgent.findBestQuotation(loanAmount))
+                            .then((quotation -> isValid(quotation,loanAmount))))
+            .flatMap(bestQuotationResponse ->
+                    ServerResponse.ok()
+                            .body(Mono.just(bestQuotationResponse), BestQuotationResponse.class))
+            .switchIfEmpty(Errors.noBankServiceAvailable())
+            .onErrorResumeWith(IllegalStateException.class, Errors::mapException)
+            .onErrorResumeWith(Errors::unknownException)
+            .next()).orElseGet(()->Errors.loanAmountRequired());
+}
+
+private Mono<BestQuotationResponse> isValid(BestQuotationResponse quotation,Double loanAmount){
+    return quotation.getRequestedLoanAmount().equals(loanAmount) ?
+            Mono.just(quotation) : Mono.error(new IllegalStateException("Returned amount does not match with the best offer"));
+}
 }
 

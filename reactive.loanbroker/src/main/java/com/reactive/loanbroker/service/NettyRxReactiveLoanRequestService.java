@@ -1,16 +1,9 @@
 package com.reactive.loanbroker.service;
 
-import com.netflix.discovery.shared.Pair;
-import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandProperties;
-import com.netflix.hystrix.HystrixObservableCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import com.reactive.loanbroker.model.Quotation;
-import com.reactive.loanbroker.util.FutureConverter;
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -24,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 
 @Service
-public class NettyRxLoanRequestService implements LoanRequestService {
+public class NettyRxReactiveLoanRequestService implements ReactiveLoanRequestService {
 
     @Autowired
     private AsyncRestTemplate asyncRestTemplate;

@@ -3,7 +3,8 @@ package com.reactive.loanbroker.agent;
 import com.reactive.loanbroker.api.ReactiveBankServiceLocator;
 import com.reactive.loanbroker.api.ReactiveLoanBrokerAgent;
 import com.reactive.loanbroker.model.BestQuotationResponse;
-import com.reactive.loanbroker.service.NettyRxLoanRequestService;
+import com.reactive.loanbroker.model.Quotation;
+import com.reactive.loanbroker.service.NettyRxReactiveLoanRequestService;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import org.reactivestreams.Publisher;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class RxLoanBrokerAgent extends ReactiveLoanBrokerAgent {
 
     @Autowired
-    private NettyRxLoanRequestService nettyRxLoanRequestService;
+    private NettyRxReactiveLoanRequestService nettyRxLoanRequestService;
 
     @Autowired
     public RxLoanBrokerAgent(ReactiveBankServiceLocator bankServiceLocator){
@@ -31,6 +32,11 @@ public class RxLoanBrokerAgent extends ReactiveLoanBrokerAgent {
                  .flatMap(bqr -> justOrEmpty(selectBestQuotation(bqr.getOffers()).map(bestQuotation -> { bqr.bestOffer(bestQuotation); return bqr;})))
                  .toFlowable();
 
+    }
+
+    @Override
+    protected Publisher<Quotation> requestForQuotation(String bankURL, Double loanAmount) {
+        return null;
     }
 
     private Single justOrEmpty(Optional data){

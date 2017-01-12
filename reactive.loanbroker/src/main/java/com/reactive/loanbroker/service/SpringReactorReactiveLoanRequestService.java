@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.HystrixWebClient;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import rx.Observable;
-import javax.annotation.PostConstruct;
+
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -19,15 +19,16 @@ import java.util.concurrent.TimeoutException;
  */
 
 @Service
-public class SpringReactorLoanRequestService implements LoanRequestService {
+public class SpringReactorReactiveLoanRequestService implements ReactiveLoanRequestService {
 
-    @Autowired
+
     private WebClient webClient;
 
     private HystrixWebClient hystrixWebClient;
 
-    @PostConstruct
-    private void init(){
+    @Autowired
+    public SpringReactorReactiveLoanRequestService(WebClient webClient){
+        this.webClient = webClient;
         hystrixWebClient = HystrixWebClient.create(webClient);
     }
 
