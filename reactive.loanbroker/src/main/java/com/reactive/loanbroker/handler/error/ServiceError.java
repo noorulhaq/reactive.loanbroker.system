@@ -1,7 +1,7 @@
 package com.reactive.loanbroker.handler.error;
 
 /**
- * Created by husainbasrawala on 1/9/17.
+ * Created by Noor on 1/9/17.
  */
 public class ServiceError {
 

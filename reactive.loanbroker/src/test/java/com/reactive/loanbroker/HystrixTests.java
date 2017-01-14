@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by husainbasrawala on 1/1/17.
+ * Created by Noor on 1/1/17.
  */
 
 public class HystrixTests {

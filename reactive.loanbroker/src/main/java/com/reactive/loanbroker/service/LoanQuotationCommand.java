@@ -8,7 +8,7 @@ import com.reactive.loanbroker.model.Quotation;
 import rx.Observable;
 
 /**
- * Created by husainbasrawala on 1/7/17.
+ * Created by Noor on 1/7/17.
  */
 public abstract class LoanQuotationCommand extends HystrixObservableCommand<Quotation> {
 

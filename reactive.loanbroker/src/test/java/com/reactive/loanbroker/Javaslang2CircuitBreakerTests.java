@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
 
 /**
- * Created by husainbasrawala on 1/1/17.
+ * Created by Noor on 1/1/17.
  */
 public class Javaslang2CircuitBreakerTests {
 
